@@ -1,0 +1,19 @@
+{
+  "random_seed": 42,
+  "study_period": [
+    "2012-01-01 00:00:00",
+    "2014-12-31 23:45:00"
+  ],
+  "selected_clients": 313,
+  "maximum_zero_share": 0.05,
+  "context_hours": 512,
+  "forecast_hours": 96,
+  "training_stride": 1,
+  "evaluation_stride": 96,
+  "saved_format": "CSV",
+  "main_metrics": [
+    "MAE",
+    "RMSE"
+  ],
+  "additional_metric": "MAPE with zero-value handling"
+}
