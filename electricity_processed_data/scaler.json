@@ -1,0 +1,6 @@
+{
+  "method": "standard scaling",
+  "mean": 205781.5625,
+  "standard_deviation": 80850.5234375,
+  "fitted_on": "training data only"
+}
