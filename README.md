@@ -1,83 +1,97 @@
-# Electricity-Demand Data Preprocessing
+# Electricity Demand Forecasting — Historical Comparison & Data Preprocessing
 
-This folder contains the preprocessing code used to prepare the Electricity Load Diagrams 2011–2014 dataset for the LSTM and Transformer experiments.
+## Overview
 
-## Dataset
+This repository contains the historical forecasting methodology comparison and data preprocessing work conducted as part of the **Time-Series Forecasting for Electricity Demand** project.
 
-The original dataset was obtained from the UCI Machine Learning Repository:
+The work focuses on two main components:
 
-**Electricity Load Diagrams 2011–2014**  
-https://doi.org/10.24432/C58C86
+1. **Historical Comparison:** Investigating and comparing forecasting approaches, particularly Long Short-Term Memory (LSTM) and Transformer-based models, to understand the evolution of electricity demand forecasting methodologies.
+2. **Data Preprocessing:** Preparing electricity consumption data for consistent model training, validation, testing, and forecasting experiments.
 
-It contains electricity readings from 370 clients recorded at 15-minute intervals.
+## 1. Historical Comparison
 
-## Preprocessing Steps
+The historical comparison investigates forecasting methodologies and their application to electricity demand prediction.
 
-The preprocessing pipeline:
+### Objectives
 
-1. loads the original dataset using the semicolon separator and decimal comma;
-2. converts the timestamp column into a chronological datetime index;
-3. selects the study period from 2012 to 2014;
-4. identifies clients with consistent electricity readings;
-5. removes clients with missing values, negative values or excessive zero readings;
-6. converts the 15-minute power readings into hourly energy consumption;
-7. aggregates the selected clients into one hourly electricity-demand series;
-8. creates chronological training, validation and test partitions;
-9. fits the scaler using the training data only;
-10. creates 168-hour input windows and 96-hour forecasting targets;
-11. creates a previous-week seasonal naïve baseline; and
-12. saves the processed data and experiment details.
+- Examine the characteristics of LSTM and Transformer-based forecasting approaches.
+- Compare their forecasting performance using consistent evaluation procedures.
+- Investigate their strengths, limitations, and suitability for electricity demand forecasting.
+- Establish a foundation for subsequent forecasting experiments.
 
-## Data Partitions
+### Implementation
 
-- **Training:** January 2012–December 2013
-- **Validation:** January 2014–June 2014
-- **Testing:** July 2014–December 2014
+The historical comparison experiments are implemented using **Jupyter Notebooks (`.ipynb`)**.
 
-The data are divided chronologically to prevent future observations from entering the training data.
+These notebooks contain the relevant experimental code, model configurations, evaluation procedures, and generated results.
 
-## Forecasting Windows
+**Note:** Separate comparison output files are not included in this repository. Results and visualisations can be inspected within the notebooks, where saved, or reproduced by executing the relevant notebook cells.
 
-Each forecasting example contains:
+## 2. Data Preprocessing
 
-- **Input:** previous 168 hours;
-- **Target:** following 96 hours.
+The data preprocessing stage prepares the electricity consumption dataset for forecasting experiments.
 
-The seasonal naïve baseline predicts each target hour using the demand observed at the same hour one week earlier.
+### Objectives
 
-## Main Output Files
+- Clean and organise historical electricity demand records.
+- Prepare hourly electricity demand data.
+- Apply the required preprocessing and scaling procedures.
+- Create training, validation, and testing datasets.
+- Construct input-output windows for time-series forecasting.
+- Generate baseline forecasts for subsequent model evaluation.
 
-- `system_load_hourly.csv` – cleaned hourly electricity-demand series
-- `selected_clients.csv` – clients included in the aggregated series
-- `client_metadata.csv` – client-selection information
-- `scaler.json` – training-set scaling parameters
-- `experiment_details.json` – experimental configuration
-- `window_metadata.csv` – timestamps and partition information
-- `train/` – training windows
-- `validation/` – validation windows
-- `test/` – test windows
+### Forecasting Configuration
 
-Each partition may contain:
+| Parameter | Configuration |
+|---|---|
+| Forecasting task | Electricity demand forecasting |
+| Temporal resolution | Hourly |
+| Input window | 512 hours |
+| Forecast horizon | 96 hours |
+| Historical period | 2012–2014 |
+| Dataset partitions | Training, validation, testing |
+| Baseline | Seasonal Naive |
 
-- `x_raw.csv` – original input values
-- `x_scaled.csv` – scaled input values
-- `y_raw.csv` – original target values
-- `y_scaled.csv` – scaled target values
-- `seasonal_naive.csv` – previous-week baseline predictions
-- `window_metadata.csv` – timestamps for each window
+### Processed Data
 
-## Running the Preprocessing
+The `electricity_processed_data/` directory contains the processed datasets and supporting metadata.
 
-1. Download the original UCI dataset.
-2. Place the dataset in the path specified in the preprocessing notebook or script.
-3. Run all preprocessing cells in order.
-4. Confirm that the processed files are created successfully.
-5. Use the same generated files for both the LSTM and Transformer implementations.
+Key files include:
 
-## Important Notes
+- `hourly_demand.csv` — Processed hourly electricity demand records.
+- `system_load_hourly.csv` — Hourly system-level demand.
+- `hourly_clients.parquet` — Hourly client-level data.
+- `window_metadata.csv` — Metadata describing forecasting windows.
+- `train/` — Training inputs, targets, scaled values, baseline forecasts, and window metadata.
+- `validation/` — Validation data.
+- `test/` — Testing data.
 
-- The scaler is fitted using training data only.
-- The same test targets must be used for both models.
-- Predictions must be converted back to kWh before evaluation.
-- The original dataset should remain unchanged.
-- Large processed files may be stored externally instead of being committed to GitHub.
+The training directory includes files such as `x_raw.csv`, `x_scaled.csv`, `y_raw.csv`, `y_scaled.csv`, and `seasonal_naive.csv`.
+
+## 3. Reproducibility
+
+### Historical Comparison
+
+Open the relevant `.ipynb` notebooks using Jupyter Notebook, JupyterLab, or Visual Studio Code.
+
+Execute the notebook cells in the intended order to reproduce the experiments, subject to the required datasets, dependencies, and runtime environment being available.
+
+### Data Preprocessing
+
+The processed datasets are provided under `electricity_processed_data/`.
+
+These files support subsequent forecasting experiments and allow the prepared data to be reused without repeating every preprocessing operation.
+
+## 4. Repository Notes
+
+- Historical comparison implementations and available results are maintained in Jupyter Notebooks.
+- Separate historical comparison output files are not provided.
+- Processed electricity demand datasets are maintained in the `electricity_processed_data/` directory.
+- Large dataset files may be managed using Git Large File Storage (Git LFS).
+
+## 5. Project Purpose
+
+Together, the historical comparison and preprocessing components provide a foundation for evaluating electricity demand forecasting methodologies under a consistent experimental framework.
+
+The historical comparison examines the development and performance of forecasting approaches, while the preprocessing stage prepares structured datasets for subsequent model development and evaluation.
